@@ -1,5 +1,4 @@
 import React from 'react';
-import reactCSS from 'reactcss';
 
 const MenuConfig = [
   {
@@ -10,6 +9,10 @@ const MenuConfig = [
     name: 'Control',
     path: '/control',
   },
+  {
+    name: 'Console',
+    path: '/console',
+  },
 ];
 
 export default class Head extends React.Component {
@@ -17,39 +20,16 @@ export default class Head extends React.Component {
     super(props);
   }
   render() {
-    const styles = reactCSS({
-      'default': {
-        head: {
-          display: 'flex',
-          flexDirection: 'row',
-          height: 80,
-        },
-        brand: {
-
-        },
-        menuWrapper: {
-        },
-        menu: {
-          padding: 0,
-          display: 'flex',
-          flexDirection: 'row',
-          listStyle: 'none',
-        },
-        item: {
-          
-        },
-      },
-    });
     return (
-      <header style={styles.head}>
-        <h1 style={styles.brand}>Shadowsocks Manager</h1>
-        <nav style={styles.menuWrapper}>
-          <ul style={styles.menu}>
+      <header className="head">
+        <h1 className="brand">Shadowsocks Manager</h1>
+        <nav className="menu-wrapper">
+          <ul className="menu">
             {
               MenuConfig.map((menu, i) => {
-                return <li key={i}><a href={menu.path} style={styles.item}>{menu.name}</a></li>;
+                return <li key={i}><a href={menu.path} className="item">{menu.name}</a></li>;
               })
-          }
+            }
           </ul>
         </nav>
       </header>

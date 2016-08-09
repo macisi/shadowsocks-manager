@@ -19,7 +19,7 @@ server.connection({
 
 server.register([vision, Nes, Inert], (err) => {
   if (err) {
-    console.log('Failed to load vision');
+    console.log('Failed to load plugin', err);
   }
 
   server.views({
@@ -37,6 +37,7 @@ server.register([vision, Nes, Inert], (err) => {
 
   server.path(__dirname);
   server.route(routerConfig);
+  server.subscription('/api/console');
 });
 
 server.start((err) => {

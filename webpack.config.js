@@ -1,6 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 const webpack = require('webpack');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const cwd = process.cwd();
 const modules = fs.readdirSync('./app/modules');
@@ -8,12 +9,13 @@ const entryConfig = {};
 modules.forEach((page) => {
   entryConfig[page] = ['./app/modules', page, 'index.jsx'].join('/');
 });
+entryConfig.app = './app/style/app.less';
 
 module.exports = {
   entry: entryConfig,
   output: {
     path: path.resolve(cwd, './build'),
-    filename: '[name].js',
+    filename: 'scripts/[name].js',
     sourceMapFilename: '[name].js.map',
   },
   externals: {
@@ -31,6 +33,13 @@ module.exports = {
         query: {
           presets: ['react', 'es2015', 'stage-1'],
         },
+      },
+      {
+        test: /\.less$/,
+        loader: ExtractTextPlugin.extract([
+          'css?SourceMap',
+          'less?SourceMap',
+        ].join('!')),
       },
     ],
   },
@@ -55,5 +64,6 @@ module.exports = {
         NODE_ENV: process.env.NODE_ENV,
       },
     }),
+    new ExtractTextPlugin('style/[name].css'),
   ],
 };

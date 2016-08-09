@@ -6,7 +6,7 @@ class Control extends React.Component {
   }
   render() {
     return (
-      <script src="/assets/control.js"></script>
+      <div></div>
     );
   }
 }

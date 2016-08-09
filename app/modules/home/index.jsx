@@ -3,9 +3,6 @@ import ReactDOM from 'react-dom';
 import ajax from '@fdaciuk/ajax';
 import Head from '../../components/head/index.jsx';
 
-
-console.log(Head);
-
 class Home extends React.Component {
   constructor(props) {
     super(props);

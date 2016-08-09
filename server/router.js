@@ -7,7 +7,7 @@ module.exports = [
     path: '/assets/{param*}',
     handler: {
       directory: {
-        path: ['build', 'node_modules/normalize.css'],
+        path: ['build'],
         listing: process.env.NODE_ENV === 'development',
       },
     },
@@ -20,7 +20,9 @@ module.exports = [
       if (!page) {
         page = 'home';
       }
-      rep.view('page/' + page);
+      rep.view(`page/${page}`, {
+        pageName: page,
+      });
     },
   },
   {
@@ -56,6 +58,26 @@ module.exports = [
               content: {
                 status: 'started',
               },
+            });
+            const server = req.server;
+            result.stdout.on('data', (data) => {
+              server.publish('/api/console', {
+                type: 'out',
+                content: data.toString(),
+              });
+            });
+
+            result.stderr.on('data', (data) => {
+              server.publish('/api/console', {
+                type: 'err',
+                content: data.toString(),
+              });
+            });
+
+            result.on('close', () => {
+              server.publish('/api/console', {
+                type: 'close',
+              });
             });
           } else {
             rep({

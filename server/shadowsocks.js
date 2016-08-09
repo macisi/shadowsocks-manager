@@ -7,25 +7,13 @@ let child;
 exports.start = () => {
   if (child && child.pid) return false;
   child = spawn(sserverPath, ['-p', '8083', '-k', '123456']);
-
-  child.stdout.on('data', (data) => {
-    console.log(`stdout: ${data}`);
-  });
-
-  child.stderr.on('data', (data) => {
-    console.log(`stderr: ${data}`);
-  });
-
-  child.on('close', (code) => {
-    console.log(`child process exited with code ${code}`);
-  });
-
-  return true;
+  return child;
 };
 
 exports.stop = () => {
   if (!child) return false;
   child.kill();
+  child = false;
   return true;
 };
 
